@@ -1,0 +1,147 @@
+
+<MyDashboard>:
+
+    BoxLayout:
+        id: dashboard
+        orientation: "vertical"
+        BoxLayout:
+            id: banner
+            padding: 50,10,10,10
+            size_hint:1, .1
+            orientation: "horizontal"
+
+            Image:
+                id: deloitte_logo
+                source: 'images/deloitte-logo.png'
+                allow_stretch: True
+                keep_ratio: False
+                size_hint: 0.1,0.5
+
+            Label:
+                id: banner_label
+                text: '[color=FFFFFF]'+'Heart Rate'+'[/color]'
+                markup: True
+                color: 0,0,0,1
+
+                canvas.before:
+                    Color:
+                        rgba: hex('#000000')
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+
+        BoxLayout:
+
+            canvas:
+                Color:
+                    rgb: 1, 1, 1
+                Rectangle:
+                    size: self.parent.width, 2
+                    pos: deloitte_logo.width+30, self.parent.height-banner.height
+            id: lineBox
+            size_hint:1, .1
+            orientation: "horizontal"
+
+        BoxLayout:
+            id: box_one_vertical
+            orientation: "vertical"
+            BoxLayout:
+                id:camera_graph_container
+                orientation: "horizontal"
+
+                BoxLayout:
+                    id: camera_box_left
+                    orientation: "vertical"
+                    canvas:
+                        Color:
+                            rgb: 0, 0, 0
+                        Rectangle:
+                            size: camera_graph_container.width/2, camera_graph_container.height/2 +200
+                            pos: 10, self.parent.height-banner.height-50-camera_graph_container.height/2
+
+                    KivyCamera:
+                        id: qrcam
+                        pos_hint: {'x': 0.01, 'y': 0.01}
+
+                    BoxLayout:
+                        id: buttons_box
+                        orientation: "horizontal"
+
+                        canvas:
+                            Color:
+                                rgb: 0, 0, 0
+                            Rectangle:
+                                size: camera_box_left.width-70, 200
+                                pos: 0, self.parent.height-banner.height-50-camera_graph_container.height/2 - 200
+
+
+                        Button:
+                            id: button_start
+                            size_hint: 0.3,0.2
+                            pos:10,100
+                            text: "Start"
+                            on_press: root.dostart()
+                        Button:
+                            id: button_detect
+                            text: "Detect"
+                            size_hint: 0.3,0.2
+                            on_press: root.detectgender()
+                        Button:
+                            id: button_exit
+                            text: "Stop"
+                            size_hint: 0.3,0.2
+                            on_press: root.doexit()
+
+
+
+
+                BoxLayout:
+                    id: graph_box_right
+                    orientation: "vertical"
+                    canvas: 
+                        Color: 
+                            rgb: 0, 0, 0 
+                        Rectangle: 
+                            size: camera_graph_container.width/2 - 70, camera_graph_container.height/2 +200 
+                            pos: camera_graph_container.width/2 + 50, self.parent.height-banner.height-50-camera_graph_container.height/2
+                                #Label:
+                                    #:import hex kivy.utils.get_color_from_hex
+                    BoxLayout:
+                        id:slider_box
+                        orientation: "vertical"
+                        #size_hint:1,0.3
+                        #padding:10,10,10,10
+                        canvas:
+                            Color:
+                                rgb: 0, 0, 0
+                            Rectangle:
+                                size: graph_box_right.width-70, 100
+                                pos: camera_graph_container.width/2 + 50, self.parent.height-banner.height-50-camera_graph_container.height/2 - 100
+
+                        Label: 
+                            id: color_label
+                            text: '' 
+                            position:   [0, 0]
+
+                        Slider: 
+                            id: accuracy_slider 
+                            size_hint: 1,1 
+                            step:10 
+                            min:0 
+                            max:100 
+                            value:60 
+                            value_track: True
+                            on_value: color_label.text = "threshold: "+str(self.value)
+                            padding: 100
+                            #orientation: "vertical"
+
+
+
+
+
+
+
+
+
+
